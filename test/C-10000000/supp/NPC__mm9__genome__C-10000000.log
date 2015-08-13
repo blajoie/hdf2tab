@@ -1,0 +1,57 @@
+starting EHSNP-mNPe__mm9__genome__C-10000000
+
+done
+/home/bl73w/cMapping/alpha/python/bin.py : writing bin positions ... done
+/home/bl73w/cMapping/alpha/python/bin.py : writing fragbin file ... done
+/home/bl73w/cMapping/alpha/python/bin.py : total kept reads = 219404739 
+/home/bl73w/cMapping/alpha/python/bin.py : total skipped reads = 0 
+
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : loading restriction fragments ... done
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : loading frag bin map ... done
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : ignoring 0 diagonals
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : calculating frag/bin sums ... done
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : calculating nan_mask ... done
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : bin_sum_threshold = 78922.5 
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : numbins = 278 
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : numfrags = 823377 
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : num_nan_bins1 = 3 
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : num_nan_bins2 = 1 
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : num_nan_bins3 = 0 
+/home/bl73w/cMapping/alpha/python/filter_1d_bins.py : num_nan_bins = 3 
+
+/home/bl73w/cMapping/alpha/python/bin2hdf.py : loading bin position file ... done
+/home/bl73w/cMapping/alpha/python/bin2hdf.py : found 22 chromosomes
+/home/bl73w/cMapping/alpha/python/bin2hdf.py : setting block size to 128 
+/home/bl73w/cMapping/alpha/python/bin2hdf.py : writing matrix to hdf ... done
+
+
+/home/bl73w/cMapping/alpha/python/applyNANFilter.py : matrix  278 x 278 
+/home/bl73w/cMapping/alpha/python/applyNANFilter.py : loading nan rows to hdf ... 
+/home/bl73w/cMapping/alpha/python/applyNANFilter.py : filtered 3 rows
+
+/home/bl73w/cMapping/alpha/python/balance.py : matrix  278 x 278 
+/home/bl73w/cMapping/alpha/python/balance.py : copying hdf file ... done
+/home/bl73w/cMapping/alpha/python/balance.py : searching for nan rows ... done
+/home/bl73w/cMapping/alpha/python/balance.py : found  3  nan row/cols.
+/home/bl73w/cMapping/alpha/python/balance.py : replacing nan rows ... done
+/home/bl73w/cMapping/alpha/python/balance.py : calculating nan replacements ( None ) ... done
+/home/bl73w/cMapping/alpha/python/balance.py : replacing isolated nans ... done
+/home/bl73w/cMapping/alpha/python/balance.py : starting balance ... 
+	iteration #0	last_delta: inf	delta: 6889.78909091	delta_bin: 44	elapsed_time: 0.000111103057861 seconds	delta_delta: inf
+	iteration #1	last_delta: 6889.78909091	delta: 0.88746029101	delta_bin: 277	elapsed_time: 0.008385181427 seconds	delta_delta: 6888.90163062
+	iteration #2	last_delta: 0.88746029101	delta: 0.369779197936	delta_bin: 250	elapsed_time: 0.0139901638031 seconds	delta_delta: 0.517681093075
+	iteration #3	last_delta: 0.369779197936	delta: 0.130672354051	delta_bin: 250	elapsed_time: 0.0224850177765 seconds	delta_delta: 0.239106843884
+	iteration #4	last_delta: 0.130672354051	delta: 0.0568516310075	delta_bin: 250	elapsed_time: 0.0310270786285 seconds	delta_delta: 0.073820723044
+	iteration #5	last_delta: 0.0568516310075	delta: 0.0237779076158	delta_bin: 250	elapsed_time: 0.0367259979248 seconds	delta_delta: 0.0330737233917
+	iteration #6	last_delta: 0.0237779076158	delta: 0.0103904529941	delta_bin: 250	elapsed_time: 0.0452990531921 seconds	delta_delta: 0.0133874546217
+	iteration #7	last_delta: 0.0103904529941	delta: 0.00453835853906	delta_bin: 250	elapsed_time: 0.0538191795349 seconds	delta_delta: 0.00585209445506
+	iteration #8	last_delta: 0.00453835853906	delta: 0.00201156287609	delta_bin: 250	elapsed_time: 0.0596029758453 seconds	delta_delta: 0.00252679566297
+	iteration #9	last_delta: 0.00201156287609	delta: 0.000896193124829	delta_bin: 250	elapsed_time: 0.0680830478668 seconds	delta_delta: 0.00111536975126
+	iteration #10	last_delta: 0.000896193124829	delta: 0.000402135267473	delta_bin: 250	elapsed_time: 0.0773191452026 seconds	delta_delta: 0.000494057857356
+	iteration #11	last_delta: 0.000402135267473	delta: 0.000181240468551	delta_bin: 250	elapsed_time: 0.0829920768738 seconds	delta_delta: 0.000220894798922
+	iteration #12	last_delta: 0.000181240468551	delta: 8.2018192153e-05	delta_bin: 250	elapsed_time: 0.0915870666504 seconds	delta_delta: 9.92222763982e-05
+	iteration #13	last_delta: 8.2018192153e-05	delta: 3.87201430141e-05	delta_bin: 106	elapsed_time: 0.100136995316 seconds	delta_delta: 4.32980491389e-05
+	iteration #14	last_delta: 3.87201430141e-05	delta: 1.93881608268e-05	delta_bin: 106	elapsed_time: 0.10586309433 seconds	delta_delta: 1.93319821873e-05
+	iteration #15	last_delta: 1.93881608268e-05	delta: 9.7194480484e-06	delta_bin: 106	elapsed_time: 0.114422082901 seconds	delta_delta: 9.66871277841e-06
+/home/bl73w/cMapping/alpha/python/balance.py : finished 16 iterations in 0.123061180115 seconds
+/home/bl73w/cMapping/alpha/python/balance.py : delta ( 9.7194480484e-06  |  106 ) vs threshold ( 1e-05 )
