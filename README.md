@@ -59,7 +59,7 @@ hdf2tab can read/subset a hdf5 file containing Hi-C data into a my5C fomatted ts
 
 ```
 
-$ python hdf2tab/hdf2tab.py  --help
+$ python scripts/hdf2tab.py  --help
 
 usage: hdf2tab.py [-h] -i INFILE [-v] [-o OUTFILE]
                   [-z ZOOM_COORDS [ZOOM_COORDS ...]] [-e ELEMENTSFILE]
@@ -112,26 +112,26 @@ optional arguments:
 ## Usage Examples
 
 (dump info of HDF5 file)
-$ python hdf2tab/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --info
+$ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --info
 
 (dump balance factors from HDF5 file)
-$ python hdf2tab/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --outputfactors
+$ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --outputfactors
 	-> NPC__mm9__genome__C-10000000-iced.factors
 
 (dump genome wide tsc matrix
-$ python hdf2tab/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 -v
+$ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 -v
 
 (dump all cis maps)
-$ python hdf2tab/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --cis -v
+$ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --cis -v
 
 (dump cis maps for chr1, chr2 and chr3 from the HDF5 file)
-$ python hdf2tab/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --cis --chrs chr1 chr2 chr3 -v 
+$ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --cis --chrs chr1 chr2 chr3 -v 
 	-> NPC__mm9__genome__C-10000000-iced__chr1.matrix.gz
 	-> NPC__mm9__genome__C-10000000-iced__chr2.matrix.gz
 	-> NPC__mm9__genome__C-10000000-iced__chr3.matrix.gz
 	
 (subset HDF by bed file)	
-$ python hdf2tab/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 -e test/chromosome-bands-qB.bed -v
+$ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 -e test/chromosome-bands-qB.bed -v
 	-> NPC__mm9__genome__C-10000000-iced.matrix.gz
 	
 	
