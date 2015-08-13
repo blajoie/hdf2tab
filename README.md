@@ -6,8 +6,6 @@
 
 # hdf2tab
 
-h5 helper scripts for encode/dekkerlab hi-c data.
-
 convert hdf5 (h5) files into tsv (tab seperated value) text (matrix) files.
 
 ```
@@ -25,7 +23,7 @@ for req in $(cat requirements.txt); do pip install $req; done
 
 ## Full Documentation
 
-See the [hdf2tab Wiki](https://github.com/blajoie/hdf2tab/wiki) for full documentation of encode/dekkerlab Hi-C HDF5 file format.
+See the [hdf2tab Wiki](https://github.com/blajoie/hdf2tab/wiki) for full documentation of Hi-C HDF5 file format.
 <br>
 
 See the [HDF5 spec Wiki](https://github.com/blajoie/hdf2tab/wiki/H5-Spec) for focumentation of the dekkerlab Hi-C HDF5 file format. (h5 dataset/attributes)
@@ -55,7 +53,7 @@ See the [Wiki](https://github.com/blajoie/hdf2tab/wiki) for full documentation, 
 
 ## What does it do?
 
-hdf2tab can read/subset a hdf5 file containing Hi-C data from the encode/dekkerlab and convert it into a my5C fomatted tsv matrix file.
+hdf2tab can read/subset a hdf5 file containing Hi-C data into a my5C fomatted tsv matrix file.
 
 ## Usage
 
