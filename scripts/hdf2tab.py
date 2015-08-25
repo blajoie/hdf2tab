@@ -15,13 +15,9 @@ import re
 import os
 import math
 import uuid
-import socket
 from collections import defaultdict
-from datetime import datetime
 
 verboseprint=lambda *a, **k: None
-__version__ = "1.0"
-
 
 def main():
 
@@ -48,7 +44,7 @@ def main():
     parser.add_argument('--outputchrs', dest='output_chrs',  action='store_true', help='output the chromosome list file, no matrix output')
     parser.add_argument('--outputbins', dest='output_bins',  action='store_true', help='output the bin position file, no matrix output')
     parser.add_argument('--outputfactors', dest='output_factors', action='store_true', help='output the balancing factor list file, no matrix output')
-    parser.add_argument('--version', action='version', version='%(prog)s'+__version__)
+    parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     
     args=parser.parse_args()
 
@@ -215,7 +211,7 @@ def main():
         verboseprint("writing tsv matrix")
         if write_mode=='all':
             verboseprint("\t",xdim,"x",ydim,sep="")
-            m_out_fh=output_wrapper(out_file+'.matrix.gz')
+            m_out_fh=gzip.open(out_file+'.matrix.gz',"wb")
             print(str(xdim)+"x"+str(ydim)+"\t"+"\t".join(x_headers),file=m_out_fh)
       
         k=0
@@ -258,8 +254,8 @@ def main():
             for i in xrange(c_start,c_end+1,blocksize):
                 i_offset=max(0,subset_start-i)
                 # adjust ending bin if extends beyond c_end/subset_end
-                b=min(c_end+1-i-i_offset,blocksize-i_offset)
-                                
+                b=min(c_end+1-i,blocksize-i_offset)
+                
                 tmp_bin_mask=np.zeros(b,dtype=bool)
                 tmp_bin_mask=y_bin_mask[i+i_offset:i+i_offset+b]
                 tmp_offsets=np.nonzero(tmp_bin_mask)[0]
@@ -270,7 +266,7 @@ def main():
                 current_block=inhdf['interactions'][i+i_offset:i+i_offset+b,:][:,tmp_x_mask][tmp_bin_mask,:]
                 for j in xrange(current_block.shape[0]):
                     if headers[i+i_offset+tmp_offsets[j]] != y_headers[k]:
-                        sys.exit('mask error! i+i_offset+tmp_offsets[j]='+str(i+i_offset+tmp_offsets[j])+' ['+headers[i+i_offset+tmp_offsets[j]]+']  k='+str(k)+' ['+y_headers[k]+']')
+                        sys.exit('mask error! i+tmp_offsets[j]='+str(i+i_offset+tmp_offsets[j])+' ['+headers[i+i_offset+tmp_offsets[j]]+']  k='+str(k)+' ['+y_headers[k]+']')
                     print(y_headers[k]+"\t"+"\t".join(map(format_func,current_block[j,:])),file=m_out_fh)
                     
                     pc=((float(k)/float((ydim-1)))*100)
@@ -333,7 +329,7 @@ def main():
                 # calculate i_offset (since we are forced to work in increments of blocksize)
                 i_offset=max(0,subset_start-i)
                 # adjust ending bin if extends beyond c_end/subset_end
-                b=min(c_end+1-i-i_offset,blocksize-i_offset)
+                b=min(c_end+1-i,blocksize-i_offset)
                 
                 tmp_bin_mask=np.zeros(b,dtype=bool)
                 tmp_bin_mask[0:b]=y_bin_mask[i+i_offset:i+i_offset+b]
@@ -360,51 +356,7 @@ def main():
     verboseprint("")
     verboseprint("")
 
-def output_wrapper(outfile):
-    
-    if outfile.endswith('.gz'):
-        fh=gzip.open(outfile,'wb')
-    else:
-        fh=open(outfile,'w')
-    
-    suppress_comments=0
-    
-    # disable comment(s)if (UCSC format file)
-    if outfile.endswith('.bed'):
-        suppress_comments = 1
-    if outfile.endswith('.bed.gz'):
-        suppress_comments = 1
-    if outfile.endswith('.bedGraph'):
-        suppress_comments = 1
-    if outfile.endswith('.bedGraph.gz'):
-        suppress_comments = 1
-    if outfile.endswith('.wig'):
-        suppress_comments = 1
-    if outfile.endswith('.wig.gz'):
-        suppress_comments = 1
-
-    if not suppress_comments:
-        print("## ",os.path.basename(__file__),sep="",end="",file=fh)
-        print("## ",end="",sep="",file=fh)
-        print("## Dekker Lab",end="",sep="",file=fh)
-        print("## Contact:\tBryan R. Lajoie,",end="",sep="",file=fh)
-        print("## https://github.com/blajoie",end="",sep="",file=fh)
-        print("## ",end="",sep="",file=fh)
-        print("## Version:\t",__version__,end="",sep="",file=fh)
-        print("## Date:\t",get_date(),end="",sep="",file=fh)
-        print("## Host:\t",get_compute_resource(),end="",sep="",file=fh)
-    
-    return(fh)
-
-def get_date():
-    time=datetime.now()
-    date=time.strftime('%H:%M:%S %p, %m/%d/%Y')
-    
-    return date
-
-def get_compute_resource():
-    return(socket.gethostname())
-    
+        
 def output_factors(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions,factors):
     """output x/y axis ICE factors (after chr/zoom subset)
     """
