@@ -204,6 +204,10 @@ def main():
     if output_factors:
         write_factors(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions,factors)
     
+    # exit if user asked to output either bin/factors
+    if output_bins or output_factors:
+        sys.exit()
+        
     # create header list
     x_headers=headers[np.nonzero(x_bin_mask)[0]]
     y_headers=headers[np.nonzero(y_bin_mask)[0]]
@@ -413,7 +417,7 @@ def get_date():
 def get_compute_resource():
     return(socket.gethostname())
     
-def output_factors(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions,factors):
+def write_factors(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions,factors):
     """output x/y axis ICE factors (after chr/zoom subset)
     """
     
@@ -429,7 +433,7 @@ def output_factors(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions,factors):
         print(str(i)+"\t"+chrs[bin_positions[i,0]]+"\t"+str(bin_positions[i,1])+"\t"+str(bin_positions[i,2])+"\t"+str(factors[i]),file=out_fh)
     out_fh.close()    
            
-def output_bins(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions):
+def write_bins(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions):
     """output x/y axis bins (after chr/zoom subset)
     """
     
