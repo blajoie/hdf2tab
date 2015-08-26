@@ -126,7 +126,11 @@ optional arguments:
 						output (default: False)
   --version			 show program's version number and exit
 
+```
+  
 ## Usage Examples
+
+```
 
 (dump info of HDF5 file)
 $ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 --info
@@ -187,9 +191,6 @@ $ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000
 $ python scripts/hdf2tab.py -i test/C-10000000/iced/NPC__mm9__genome__C-10000000-iced.hdf5 -e test/chromosome-bands-qB.bed -v
 	-> NPC__mm9__genome__C-10000000-iced.matrix.gz
 	
-etc 
-etc
-
 ```
 
 ## Change Log
