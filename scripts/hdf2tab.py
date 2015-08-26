@@ -249,7 +249,7 @@ def main():
             if write_mode == 'cis':    
                 c_ydim=np.sum(tmp_y_mask)
                 c_xdim=np.sum(tmp_x_mask)
-                m_out_fh=gzip.open(out_file+'__'+c+'.matrix.gz',"wb")
+                m_out_fh=output_wrapper(out_file+'__'+c+'.matrix.gz')
                 verboseprint("\n\t",c_xdim,"x",c_ydim," [",c,"]",sep="")
                 x_headers=headers[np.nonzero(tmp_x_mask)[0]]
                 print(str(c_xdim)+"x"+str(c_ydim)+"\t"+"\t".join(x_headers),file=m_out_fh)
@@ -273,7 +273,7 @@ def main():
                         sys.exit('mask error! i+i_offset+tmp_offsets[j]='+str(i+i_offset+tmp_offsets[j])+' ['+headers[i+i_offset+tmp_offsets[j]]+']  k='+str(k)+' ['+y_headers[k]+']')
                     print(y_headers[k]+"\t"+"\t".join(map(format_func,current_block[j,:])),file=m_out_fh)
                     
-                    pc=((float(k)/float((ydim-1)))*100)
+                    pc=(k/(ydim-1))*100
                     verboseprint("\r",""*50,"\r\t"+str(k)+" / "+str(ydim-1)+" ["+str("{0:.2f}".format(pc))+"%] complete ... ",end="\r")
                     if verbose: sys.stdout.flush()
                     k += 1
@@ -316,7 +316,7 @@ def main():
             
             verboseprint("")
             for xc in x_chrs:
-                x_file_handles[xc]=gzip.open(out_file+'__'+xc+'__'+yc+'.matrix.gz',"wb")
+                x_file_handles[xc]=output_wrapper(out_file+'__'+xc+'__'+yc+'.matrix.gz')
                 xr=chr_bin_range[chr_dict[xc]]
                 c_xdim=np.sum(x_bin_mask[xr[0]:xr[1]+1])
                 verboseprint("\t",c_xdim,"x",c_ydim," [",xc," x ",yc,"]",sep="")
@@ -349,7 +349,7 @@ def main():
                             sys.exit('mask error! i+j='+str(i+i_offset+j)+' ['+headers[i+i_offset+j]+']  k='+str(k)+' ['+y_headers[k]+']')
                         print(y_headers[k]+"\t"+"\t".join(map(format_func,current_block[j,:][:,x_bin_masks[xc]])),file=x_file_handles[xc])
                         
-                    pc=((float(k)/float((ydim-1)))*100)
+                    pc=(k/(ydim-1))*100
                     verboseprint("\r",""*50,"\r\t"+str(k)+" / "+str(ydim-1)+" ["+str("{0:.2f}".format(pc))+"%] complete ... ",end="\r")
                     if verbose: sys.stdout.flush()
                     k += 1
@@ -360,6 +360,14 @@ def main():
     verboseprint("")
     verboseprint("")
 
+def input_wrapper(infile):
+    if infile.endswith('.gz'):
+        fh=gzip.open(infile,'r')
+    else:
+        fh=open(infile,'r')
+        
+    return fh
+    
 def output_wrapper(outfile):
     
     if outfile.endswith('.gz'):
@@ -384,21 +392,21 @@ def output_wrapper(outfile):
         suppress_comments = 1
 
     if not suppress_comments:
-        print("## ",os.path.basename(__file__),sep="",end="",file=fh)
-        print("## ",end="",sep="",file=fh)
-        print("## Dekker Lab",end="",sep="",file=fh)
-        print("## Contact:\tBryan R. Lajoie,",end="",sep="",file=fh)
-        print("## https://github.com/blajoie",end="",sep="",file=fh)
-        print("## ",end="",sep="",file=fh)
-        print("## Version:\t",__version__,end="",sep="",file=fh)
-        print("## Date:\t",get_date(),end="",sep="",file=fh)
-        print("## Host:\t",get_compute_resource(),end="",sep="",file=fh)
+        print("## ",os.path.basename(__file__),sep="",file=fh)
+        print("## ",sep="",file=fh)
+        print("## Dekker Lab",sep="",file=fh)
+        print("## Contact: Bryan R. Lajoie",sep="",file=fh)
+        print("## https://github.com/blajoie",sep="",file=fh)
+        print("## ",sep="",file=fh)
+        print("## Version:\t",__version__,sep="",file=fh)
+        print("## Date:\t",get_date(),sep="",file=fh)
+        print("## Host:\t",get_compute_resource(),sep="",file=fh)
     
     return(fh)
 
 def get_date():
     time=datetime.now()
-    date=time.strftime('%H:%M:%S %p, %m/%d/%Y')
+    date=time.strftime('%I:%M:%S %p, %m/%d/%Y')
     
     return date
 
@@ -409,13 +417,13 @@ def output_factors(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions,factors):
     """output x/y axis ICE factors (after chr/zoom subset)
     """
     
-    out_fh=open(out_file+'.xfactors',"w")
+    out_fh=output_wrapper(out_file+'.xfactors')
     print("# binIndex\tbinChr\tbinStart\tbinEnd",file=out_fh)
     for i in np.nonzero(x_bin_mask)[0]:
         print(str(i)+"\t"+chrs[bin_positions[i,0]]+"\t"+str(bin_positions[i,1])+"\t"+str(bin_positions[i,2])+"\t"+str(factors[i]),file=out_fh)
     out_fh.close()
     
-    out_fh=open(out_file+'.yfactors',"w")
+    out_fh=output_wrapper(out_file+'.yfactors')
     print("# binIndex\tbinChr\tbinStart\tbinEnd",file=out_fh)
     for i in np.nonzero(y_bin_mask)[0]:
         print(str(i)+"\t"+chrs[bin_positions[i,0]]+"\t"+str(bin_positions[i,1])+"\t"+str(bin_positions[i,2])+"\t"+str(factors[i]),file=out_fh)
@@ -425,13 +433,13 @@ def output_bins(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions):
     """output x/y axis bins (after chr/zoom subset)
     """
     
-    out_fh=open(out_file+'.xbins',"w")
+    out_fh=output_wrapper(out_file+'.xbins')
     print("# binIndex\tbinChr\tbinStart\tbinEnd",file=out_fh)
     for i in np.nonzero(x_bin_mask)[0]:
         print(str(i)+"\t"+chrs[bin_positions[i,0]]+"\t"+str(bin_positions[i,1])+"\t"+str(bin_positions[i,2]),file=out_fh)
     out_fh.close()
     
-    out_fh=open(out_file+'.ybins',"w")
+    out_fh=output_wrapper(out_file+'.ybins')
     print("# binIndex\tbinChr\tbinStart\tbinEnd",file=out_fh)
     for i in np.nonzero(y_bin_mask)[0]:
         print(str(i)+"\t"+chrs[bin_positions[i,0]]+"\t"+str(bin_positions[i,1])+"\t"+str(bin_positions[i,2]),file=out_fh)
@@ -493,8 +501,8 @@ def get_blocksize(hdf_blocksize,blocksize):
     if blocksize == None:
         blocksize = hdf_blocksize
     else:
-        if float(blocksize%hdf_blocksize) != 0:
-            blocksize=int(math.ceil(float(blocksize)/float(hdf_blocksize)))*hdf_blocksize
+        if blocksize%hdf_blocksize != 0:
+            blocksize=int(math.ceil(blocksize/hdf_blocksize)*hdf_blocksize)
             
     verboseprint("hdf_blocksize",hdf_blocksize)
     verboseprint("blocksize",blocksize)
@@ -536,7 +544,7 @@ def subset_by_bed(bed_chrs,bed_dict,bed_file,element_exten):
     
     num_elements=0
     for b in bed_file:
-        e_fh=open(b,"r") 
+        e_fh=input_wrapper(b)
         for i,li in enumerate(e_fh):
             li=li.rstrip("\n")
             if li.startswith("#") or li.startswith("track"):
