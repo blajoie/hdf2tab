@@ -47,7 +47,7 @@ def main():
     parser.add_argument('--maxdim', dest='max_dimension', type=int, default=12000 , help='maximum dimension of allxall matrix - else cis only')
     parser.add_argument('--outputbins', dest='output_bins',  action='store_true', help='output the bin position file, no matrix output')
     parser.add_argument('--outputfactors', dest='output_factors', action='store_true', help='output the balancing factor list file, no matrix output')
-    parser.add_argument('--version', action='version', version='%(prog)s'+__version__)
+    parser.add_argument('--version', action='version', version='%(prog)s '+__version__)
     
     args=parser.parse_args()
 
