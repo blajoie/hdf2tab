@@ -44,8 +44,7 @@ def main():
     parser.add_argument('-yc','--ychrs', dest='y_selected_chrs', nargs='+', type=str, default=[], help='y axis subset of chromosomes to extract')
     parser.add_argument('-b','--blocksize', dest='blocksize', type=int, default=None, help='block size of HDF5 file')
     parser.add_argument('-p', dest='precision', type=int, default=4, help='output precision (# of digits)')
-    parser.add_argument('--maxdim', dest='max_dimension', type=int, default=4000 , help='maximum dimension of allxall matrix - else cis only')
-    parser.add_argument('--outputchrs', dest='output_chrs',  action='store_true', help='output the chromosome list file, no matrix output')
+    parser.add_argument('--maxdim', dest='max_dimension', type=int, default=12000 , help='maximum dimension of allxall matrix - else cis only')
     parser.add_argument('--outputbins', dest='output_bins',  action='store_true', help='output the bin position file, no matrix output')
     parser.add_argument('--outputfactors', dest='output_factors', action='store_true', help='output the balancing factor list file, no matrix output')
     parser.add_argument('--version', action='version', version='%(prog)s'+__version__)
@@ -70,7 +69,6 @@ def main():
     blocksize=args.blocksize
     precision=args.precision
     max_dimension=args.max_dimension
-    output_chrs=args.output_chrs
     output_bins=args.output_bins
     output_factors=args.output_factors
     
