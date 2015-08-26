@@ -117,7 +117,7 @@ optional arguments:
   -p PRECISION		  output precision (# of digits) (default: 4)
   --maxdim MAX_DIMENSION
 						maximum dimension of allxall matrix - else cis only
-						(default: 4000)
+						(default: 12000)
   --outputchrs		  output the chromosome list file, no matrix output
 						(default: False)
   --outputbins		  output the bin position file, no matrix output
