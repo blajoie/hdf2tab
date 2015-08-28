@@ -15,6 +15,13 @@ hdf2tab/
 
 ## Installation
 
+hdf2tab requires numpy/h5py
+
+You can install the dependencies with:
+```
+for req in $(cat requirements.txt); do pip install $req; done
+```
+
 Download the project.
 ```
 wget -O hdf2tab.zip https://github.com/blajoie/hdf2tab/archive/master.zip
@@ -31,11 +38,10 @@ unzip hdf2tab.zip
 cd hdf2tab/
 ```
 
-hdf2tab requires numpy/h5py
-
-You can install the dependencies with
+After installing dependencies, you should be free to use hdf2tab.py:
+e.g.
 ```
-for req in $(cat requirements.txt); do pip install $req; done
+$ python scripts/hdf2tab.py
 ```
 
 ## Full Documentation
