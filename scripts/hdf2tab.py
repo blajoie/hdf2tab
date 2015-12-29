@@ -20,7 +20,7 @@ from collections import defaultdict
 from datetime import datetime
 
 verboseprint=lambda *a, **k: None
-__version__ = "1.0"
+__version__ = "1.01"
 
 
 def main():
@@ -31,6 +31,7 @@ def main():
     parser.add_argument('-v', '--verbose', dest='verbose',  action='count', help='Increase verbosity (specify multiple times for more)')
     parser.add_argument('--info',dest='info', action='store_true', help='interaction matrix hdf5 file')
     parser.add_argument('-o', '--output', dest='out_file', type=str, help='interaction matrix output file')
+    parser.add_argument('--os', '--output_suffix', dest='output_suffix', type=str, default=None, help='suffix for output file')
     parser.add_argument('-wm', dest='write_mode', default='all', choices=['cis','seperate','all'], help='write mode (cis=cis only maps, seperate=all cis/trans seperate fiels, all=single matrix)')
     parser.add_argument('-z', '--zoom', dest='zoom_coords', nargs='+', type=str, default=[], help='x/y axis zoom coordinate')
     parser.add_argument('-xz', '--xzoom', dest='x_zoom_coords', nargs='+', type=str, default=[], help='x axis zoom coordinate')
@@ -55,6 +56,7 @@ def main():
     verbose=args.verbose
     info=args.info
     out_file=args.out_file
+    output_suffix=args.output_suffix
     write_mode=args.write_mode
     zoom_coords=args.zoom_coords
     x_zoom_coords=args.x_zoom_coords
@@ -137,7 +139,10 @@ def main():
         out_file=re.sub(".hdf5", "", in_file_name)
     out_file=re.sub(".matrix", "", out_file)
     out_file=re.sub(".gz", "", out_file)
-
+    
+    if output_suffix != None:
+        out_file = out_file+'__'+output_suffix
+        
     # set up zoom chrs/dict
     x_zoom_chrs=list()
     x_zoom_dict=defaultdict(list)
@@ -193,7 +198,7 @@ def main():
         x_bin_mask=y_bin_mask=x_bin_mask+y_bin_mask
     
     xdim,ydim=[np.sum(x_bin_mask),np.sum(y_bin_mask)]
-    if xdim*ydim > max_dimension**2:
+    if xdim*ydim > max_dimension**2 and write_mode =='all':
         sys.exit('\nerror: matrix too large! %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
        
     if output_bins:
@@ -359,6 +364,8 @@ def main():
             for xc in x_chrs:
                 x_file_handles[xc].close()
                 
+    inhdf.close()
+    
     verboseprint("")
     verboseprint("")
 
@@ -370,28 +377,42 @@ def input_wrapper(infile):
         
     return fh
     
-def output_wrapper(outfile):
+def output_wrapper(outfile,append=False,suppress_comments=False):
     
     if outfile.endswith('.gz'):
-        fh=gzip.open(outfile,'wb')
+        if append:
+            fh=gzip.open(outfile,'a')
+        else:
+            fh=gzip.open(outfile,'w')   
     else:
-        fh=open(outfile,'w')
-    
-    suppress_comments=0
+        if append:
+            fh=open(outfile,'a')
+        else:
+            fh=open(outfile,'w')
     
     # disable comment(s)if (UCSC format file)
     if outfile.endswith('.bed'):
-        suppress_comments = 1
+        suppress_comments = True
     if outfile.endswith('.bed.gz'):
-        suppress_comments = 1
+        suppress_comments = True
     if outfile.endswith('.bedGraph'):
-        suppress_comments = 1
+        suppress_comments = True
     if outfile.endswith('.bedGraph.gz'):
-        suppress_comments = 1
+        suppress_comments = True
     if outfile.endswith('.wig'):
-        suppress_comments = 1
+        suppress_comments = True
     if outfile.endswith('.wig.gz'):
-        suppress_comments = 1
+        suppress_comments = True
+    if outfile.endswith('.sam'):
+        suppress_comments = True
+    if outfile.endswith('.sam.gz'):
+        suppress_comments = True
+    if outfile.endswith('.bam'):
+        suppress_comments = True
+    if outfile.endswith('.fastq'):
+        suppress_comments = True
+    if outfile.endswith('.fastq.gz'):
+        suppress_comments = True
 
     if not suppress_comments:
         print("## ",os.path.basename(__file__),sep="",file=fh)
