@@ -32,7 +32,7 @@ def main():
     parser.add_argument('--info',dest='info', action='store_true', help='interaction matrix hdf5 file')
     parser.add_argument('-o', '--output', dest='out_file', type=str, help='interaction matrix output file')
     parser.add_argument('--os', '--output_suffix', dest='output_suffix', type=str, default=None, help='suffix for output file')
-    parser.add_argument('-wm', dest='write_mode', default='all', choices=['cis','seperate','all'], help='write mode (cis=cis only maps, seperate=all cis/trans seperate fiels, all=single matrix)')
+    parser.add_argument('-wm', dest='write_mode', default='all', choices=['cis','seperate','all','all__cis'], help='write mode (cis=cis only maps, seperate=all cis/trans seperate fiels, all=single matrix)')
     parser.add_argument('-z', '--zoom', dest='zoom_coords', nargs='+', type=str, default=[], help='x/y axis zoom coordinate')
     parser.add_argument('-xz', '--xzoom', dest='x_zoom_coords', nargs='+', type=str, default=[], help='x axis zoom coordinate')
     parser.add_argument('-yz', '--yzoom', dest='y_zoom_coords', nargs='+', type=str, default=[], help='y axis zoom coordinate')
@@ -199,7 +199,13 @@ def main():
     
     xdim,ydim=[np.sum(x_bin_mask),np.sum(y_bin_mask)]
     if xdim*ydim > max_dimension**2 and write_mode =='all':
-        sys.exit('\nerror: matrix too large! %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
+        sys.exit('\nerror: matrix too large! ['+out_file+'] %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
+    elif xdim*ydim > max_dimension**2 and write_mode =='all__cis':
+        write_mode='cis'
+    elif xdim*ydim < max_dimension**2 and write_mode =='all__cis':
+        write_mode='all'
+    else:
+        sys.exit('\nerror: matrix too large! ['+write_mode+'] ['+out_file+'] %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
        
     if output_bins:
         write_bins(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions)
