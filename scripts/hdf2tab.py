@@ -199,13 +199,13 @@ def main():
     
     xdim,ydim=[np.sum(x_bin_mask),np.sum(y_bin_mask)]
     if xdim*ydim > max_dimension**2 and write_mode =='all':
-        sys.exit('\nerror: matrix too large! ['+out_file+'] %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
+        sys.exit('\nerror1: matrix too large! ['+out_file+'] %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
     elif xdim*ydim > max_dimension**2 and write_mode =='all__cis':
         write_mode='cis'
     elif xdim*ydim < max_dimension**2 and write_mode =='all__cis':
         write_mode='all'
-    else:
-        sys.exit('\nerror: matrix too large! ['+write_mode+'] ['+out_file+'] %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
+    elif xdim*ydim > max_dimension**2:
+        sys.exit('\nerror2: matrix too large! ['+write_mode+'] ['+out_file+'] %d > %d (increase --maxdim if desired)\n' % (xdim*ydim,max_dimension**2)) 
        
     if output_bins:
         write_bins(out_file,x_bin_mask,y_bin_mask,chrs,bin_positions)
