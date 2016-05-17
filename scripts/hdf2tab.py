@@ -286,7 +286,10 @@ def main():
                         sys.exit('mask error! i+i_offset+tmp_offsets[j]='+str(i+i_offset+tmp_offsets[j])+' ['+headers[i+i_offset+tmp_offsets[j]]+']  k='+str(k)+' ['+y_headers[k]+']')
                     print(y_headers[k]+"\t"+"\t".join(map(format_func,current_block[j,:])),file=m_out_fh)
                     
-                    pc=(k/(ydim-1))*100
+                    pc=100
+                    if ydim > 1:
+                        pc=(k/(ydim-1))*100
+                        
                     verboseprint("\r",""*50,"\r\t"+str(k)+" / "+str(ydim-1)+" ["+str("{0:.2f}".format(pc))+"%] complete ... ",end="\r")
                     if verbose: sys.stdout.flush()
                     k += 1
@@ -362,7 +365,10 @@ def main():
                             sys.exit('mask error! i+j='+str(i+i_offset+j)+' ['+headers[i+i_offset+j]+']  k='+str(k)+' ['+y_headers[k]+']')
                         print(y_headers[k]+"\t"+"\t".join(map(format_func,current_block[j,:][:,x_bin_masks[xc]])),file=x_file_handles[xc])
                         
-                    pc=(k/(ydim-1))*100
+                    pc=100
+                    if ydim > 1:
+                        pc=(k/(ydim-1))*100
+                        
                     verboseprint("\r",""*50,"\r\t"+str(k)+" / "+str(ydim-1)+" ["+str("{0:.2f}".format(pc))+"%] complete ... ",end="\r")
                     if verbose: sys.stdout.flush()
                     k += 1
