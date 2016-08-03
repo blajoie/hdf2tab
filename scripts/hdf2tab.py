@@ -27,7 +27,7 @@ def main():
 
     parser=argparse.ArgumentParser(description='Extract c-data from HDF5 file into TXT (matrix.gz)',formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('-i', '--input', dest='in_file', type=str, required=True, help='interaction matrix hdf5 file')
+    parser.add_argument('-i', '--i', '--input', dest='in_file', type=str, required=True, help='interaction matrix hdf5 file')
     parser.add_argument('-v', '--verbose', dest='verbose',  action='count', help='Increase verbosity (specify multiple times for more)')
     parser.add_argument('--info',dest='info', action='store_true', help='interaction matrix hdf5 file')
     parser.add_argument('-o', '--output', dest='out_file', type=str, help='interaction matrix output file')
